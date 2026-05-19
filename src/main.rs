@@ -15,4 +15,12 @@ async fn main() {
     tracing::subscriber::set_global_default(subscriber)
         .expect("Error initializing the logging (tracing) component");
 
+    let config = AppConfig::load_from_env();
+    info!(
+        max_cost = config.max_cost_per_query,
+        price_per_tib = config.price_per_tib,
+        enforce_mode = config.enforce_mode,
+        "Starting bq-cost-sentinel..."
+    );
+
 }

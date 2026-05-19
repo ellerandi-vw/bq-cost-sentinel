@@ -11,5 +11,6 @@ impl<S> FromRequestParts<S> for BearerToken
 where
     S: Send + Sync,
 {
+    type Rejection = (StatusCode, &'static str);
 
 }

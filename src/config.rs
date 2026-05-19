@@ -7,3 +7,7 @@ pub struct AppConfig {
     pub price_per_tib: f64,
     pub enforce_mode: bool,
 }
+
+impl AppConfig {
+
+}

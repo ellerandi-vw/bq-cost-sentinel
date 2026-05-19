@@ -2,5 +2,6 @@
 name = "bq-cost-sentinel"
 version = "0.1.0"
 edition = "2024"
+description = "BigQuery financial guardrail for Google Cloud enviornments"
 
 [dependencies]

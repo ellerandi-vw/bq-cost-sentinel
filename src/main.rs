@@ -5,3 +5,8 @@ use config::AppConfig;
 use std::net::SocketAddr;
 use tracing::{info, Level};
 use tracing_subscriber::FmtSubscriber;
+
+#[tokio::main]
+async fn main() {
+
+}

@@ -9,5 +9,7 @@ pub struct AppConfig {
 }
 
 impl AppConfig {
+    pub fn load_from_env() -> Self {
 
+    }
 }

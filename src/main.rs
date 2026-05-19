@@ -29,4 +29,6 @@ async fn main() {
     let addr = SocketAddr::from(([0, 0, 0, 0], config.port));
     info!("Server listening on http://{}", addr);
 
+    let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
+
 }

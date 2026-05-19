@@ -1,0 +1,16 @@
+[package]
+name = "bq-cost-sentinel"
+version = "0.1.0"
+edition = "2024"
+description = "BigQuery financial guardrail for Google Cloud enviornments"
+
+[dependencies]
+tokio = { version = "1.35", features = ["full"] }
+axum = "0.7"
+hyper = { version = "1.1", features = ["full"] }
+reqwest = { version = "0.11", features = ["json", "rustls-tls"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tower = "0.4"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }

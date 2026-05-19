@@ -23,4 +23,7 @@ async fn main() {
         "Starting bq-cost-sentinel..."
     );
 
+    let app = Router::new()
+        .route("/health", get(|| async { "OK" }));
+
 }

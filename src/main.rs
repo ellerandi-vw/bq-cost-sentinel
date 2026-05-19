@@ -26,4 +26,7 @@ async fn main() {
     let app = Router::new()
         .route("/health", get(|| async { "OK" }));
 
+    let addr = SocketAddr::from(([0, 0, 0, 0], config.port));
+    info!("Server listening on http://{}", addr);
+
 }

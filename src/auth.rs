@@ -5,3 +5,5 @@ use axum::{
 }
 
 pub struct BearerToken(pub String);
+
+#[async_trait]

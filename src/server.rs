@@ -12,3 +12,9 @@ use tracing::{info, warn};
 pub struct AppState {
     pub config: crate::config::AppConfig,
 }
+
+pub async fn proxy_query(
+
+) -> impl IntoResponse {
+    
+}

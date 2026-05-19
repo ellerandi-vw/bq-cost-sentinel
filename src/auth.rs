@@ -19,5 +19,15 @@ where
             .get("Authorization")
             .and_then(|value| value.to_str().ok());
 
+        match auth_header {
+            Some(auth_header) if auth_header.starts_with("Bearer ") => {
+                let token = auth_header.trim_start_matches("Bearer ").to_string();
+                Ok(BearerToken(token))
+            }
+            _ => Err((
+                StatusCode::UNAUTHORIZED,
+                "The authorization token (Bearer Token) is missing",
+            )),
+        }
     }
 }

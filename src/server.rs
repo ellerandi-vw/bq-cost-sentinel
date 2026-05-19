@@ -8,3 +8,7 @@ use axum::{
 use serde_json::Value;
 use std::sync::Arc;
 use tracing::{info, warn};
+
+pub struct AppState {
+    pub config: crate::config::AppConfig,
+}

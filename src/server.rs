@@ -9,7 +9,6 @@ use serde_json::Value;
 use std::sync::Arc;
 use tracing::{error, info, warn};
 
-#[allow(dead_code)]
 pub struct AppState {
     pub config: crate::config::AppConfig,
     pub google_client: crate::google_client::BqClient

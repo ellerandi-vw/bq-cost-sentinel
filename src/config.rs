@@ -1,4 +1,5 @@
 use std::env;
+use dotenvy::dotenv;
 
 #[derive(Clone, Debug)]
 pub struct AppConfig {

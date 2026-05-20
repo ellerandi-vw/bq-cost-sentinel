@@ -1,6 +1,7 @@
 mod config;
 mod auth;
 mod server;
+mod google_client;
 
 use axum::{
     routing::{get, post},

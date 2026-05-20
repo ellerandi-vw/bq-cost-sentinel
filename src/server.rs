@@ -14,9 +14,9 @@ pub struct AppState {
 }
 
 pub async fn proxy_query(
-    State(state): State<Arc<AppState>>,
+    State(_state): State<Arc<AppState>>,
     Path(project_id): Path<String>,
-    token: BearerToken,
+    _token: BearerToken,
     Json(payload): Json<Value>, 
 ) -> impl IntoResponse {
     

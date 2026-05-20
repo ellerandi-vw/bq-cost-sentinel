@@ -2,10 +2,19 @@ mod config;
 mod auth;
 mod server;
 
-use axum::{routing::get, Router};
+use axum::{
+    routing::{get, post},
+    Router
+};
 use config::AppConfig;
-use std::net::SocketAddr;
-use tracing::{info, Level};
+use std::{
+    net::SocketAddr, 
+    sync::Arc
+};
+use tracing::{
+    info,
+    Level
+};
 use tracing_subscriber::FmtSubscriber;
 
 #[tokio::main]

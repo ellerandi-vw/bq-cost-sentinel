@@ -9,14 +9,15 @@ use serde_json::Value;
 use std::sync::Arc;
 use tracing::{info, warn};
 
+#[allow(dead_code)]
 pub struct AppState {
     pub config: crate::config::AppConfig,
 }
 
 pub async fn proxy_query(
-    State(state): State<Arc<AppState>>,
+    State(_state): State<Arc<AppState>>,
     Path(project_id): Path<String>,
-    token: BearerToken,
+    _token: BearerToken,
     Json(payload): Json<Value>, 
 ) -> impl IntoResponse {
     

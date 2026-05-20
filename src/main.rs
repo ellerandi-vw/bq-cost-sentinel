@@ -1,9 +1,20 @@
 mod config;
+mod auth;
+mod server;
 
-use axum::{routing::get, Router};
+use axum::{
+    routing::{get, post},
+    Router
+};
 use config::AppConfig;
-use std::net::SocketAddr;
-use tracing::{info, Level};
+use std::{
+    net::SocketAddr, 
+    sync::Arc
+};
+use tracing::{
+    info,
+    Level
+};
 use tracing_subscriber::FmtSubscriber;
 
 #[tokio::main]
@@ -16,15 +27,25 @@ async fn main() {
         .expect("Error initializing the logging (tracing) component");
 
     let config = AppConfig::load_from_env();
+
+    let shared_state = Arc::new(server::AppState {
+        config: config.clone(),
+    });
+
     info!(
         max_cost = config.max_cost_per_query,
         price_per_tib = config.price_per_tib,
         enforce_mode = config.enforce_mode,
-        "Starting bq-cost-sentinel..."
+        "Starting BigQuery Cost Sentinel in proxy mode..."
     );
 
     let app = Router::new()
-        .route("/health", get(|| async { "OK" }));
+        .route("/health", get(|| async { "OK" }))
+        .route(
+            "/bigquery/v2/projects/:project_id/queries",
+            post(server::proxy_query),
+        )
+        .with_state(shared_state);        
 
     let addr = SocketAddr::from(([0, 0, 0, 0], config.port));
     info!("Server listening on http://{}", addr);

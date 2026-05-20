@@ -40,7 +40,12 @@ async fn main() {
     );
 
     let app = Router::new()
-        .route("/health", get(|| async { "OK" }));
+        .route("/health", get(|| async { "OK" }))
+        .route(
+            "/bigquery/v2/projects/:project_id/queries",
+            post(server::proxy_query),
+        )
+        .with_state(shared_state);        
 
     let addr = SocketAddr::from(([0, 0, 0, 0], config.port));
     info!("Server listening on http://{}", addr);

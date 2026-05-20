@@ -27,6 +27,8 @@ pub async fn proxy_query(
         "Request for a query sent to BigQuery was intercepted"
     );
 
+    let payload_for_dryrun = payload.clone();
+
     match state.google_client.simulate_query(&project_id, &token.0, payload).await {
         Ok(bytes) => {
             let bytes_f64 = bytes as f64;

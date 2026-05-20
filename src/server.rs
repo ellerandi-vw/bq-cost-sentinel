@@ -29,7 +29,7 @@ pub async fn proxy_query(
 
     let payload_for_dryrun = payload.clone();
 
-    match state.google_client.simulate_query(&project_id, &token.0, payload).await {
+    match state.google_client.simulate_query(&project_id, &token.0, payload_for_dryrun).await {
         Ok(bytes) => {
             let bytes_f64 = bytes as f64;
             let tibs = bytes_f64 / 1_099_511_627_776.0;

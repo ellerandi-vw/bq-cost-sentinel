@@ -33,6 +33,7 @@ async fn main() {
 
     let shared_state = Arc::new(server::AppState {
         config: config.clone(),
+        google_client
     });
 
     info!(

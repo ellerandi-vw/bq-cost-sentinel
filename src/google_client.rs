@@ -60,5 +60,15 @@ impl BqClient {
             .await
             .map_err(|e| format!("Error reading Google Cloud JSON: {}", e))?;
 
+        let bytes_str = bq_response
+            .total_bytes_processed
+            .ok_or("Google Cloud did not return the totalBytesProcessed field")?;
+            
+        let bytes = bytes_str
+            .parse::<u64>()
+            .map_err(|_| "The totalBytesProcessed field is not a valid number")?;
+
+        Ok(bytes)
+
     }
 }

@@ -7,3 +7,8 @@ use serde_json::Value;
 pub struct BqDryRunResponse {
     pub total_bytes_processed: Option<String>, 
 }
+
+#[derive(Clone)]
+pub struct BqClient {
+    http_client: Client,
+}

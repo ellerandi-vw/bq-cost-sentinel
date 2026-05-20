@@ -27,7 +27,9 @@ pub async fn proxy_query(
         "Request for a query sent to BigQuery was intercepted"
     );
 
-    match state.google_client.simulate_query(&project_id, &token.0, payload).await {
+    let payload_for_dryrun = payload.clone();
+
+    match state.google_client.simulate_query(&project_id, &token.0, payload_for_dryrun).await {
         Ok(bytes) => {
             let bytes_f64 = bytes as f64;
             let tibs = bytes_f64 / 1_099_511_627_776.0;
@@ -50,21 +52,26 @@ pub async fn proxy_query(
                             "Blocked by BigQuery Sentinel: The query costs ${:.2}, exceeding your limit of ${:.2}",
                             query_cost, state.config.max_cost_per_query
                         ),
-                    );
+                    ).into_response();
                 }
             }
 
             info!(
                 project_id = %project_id,
                 estimated_cost = query_cost,
-                "Query validated... Within safe limits"
+                "Query validated. Executing the original query in BigQuery..."
             );
 
-            // cheap query or enforce_mode == false
-            (
-                StatusCode::OK,
-                format!("Approved, estimated cost: ${:.2} ({} bytes)", query_cost, bytes),
-            )
+            match state.google_client.execute_query(&project_id, &token.0, &payload).await {
+                Ok(data_json) => {
+                    info!("Query successfully executed. Sending data to the client...");
+                    (StatusCode::OK, Json(data_json)).into_response()
+                }
+                Err(err) => {
+                    error!("Error in actual execution: {}", err);
+                    (StatusCode::INTERNAL_SERVER_ERROR, err).into_response()
+                }
+            }
         }
         Err(err) => {
             error!(
@@ -75,7 +82,7 @@ pub async fn proxy_query(
             (
                 StatusCode::BAD_REQUEST,
                 format!("Error simulating the query in BigQuery: {}", err),
-            )
+            ).into_response()
         }
     }
 

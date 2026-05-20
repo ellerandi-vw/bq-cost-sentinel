@@ -38,5 +38,22 @@ impl BqClient {
             );
         }
 
+        let response = self
+            .http_client
+            .post(&url)
+            .header("Authorization", format!("Bearer {}", token))
+            .json(&payload)
+            .send()
+            .await
+            .map_err(|e| format!("Network error while connectin to Google Cloud: {}", e))?;
+
+        if response.status() != StatusCode::OK {
+            let error_body = response
+                .text()
+                .await
+                .unwrap_or_else(|_| "Unknown Google Cloud error".to_string());
+            return Err(format!("Google Cloud rejected the simulation: {}", error_body));
+        }
+
     }
 }

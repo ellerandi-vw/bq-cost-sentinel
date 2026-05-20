@@ -7,7 +7,7 @@ use axum::{
 };
 use serde_json::Value;
 use std::sync::Arc;
-use tracing::{info, warn};
+use tracing::{error, info, warn};
 
 #[allow(dead_code)]
 pub struct AppState {

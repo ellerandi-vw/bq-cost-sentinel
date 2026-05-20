@@ -7,7 +7,7 @@ use axum::{
 };
 use serde_json::Value;
 use std::sync::Arc;
-use tracing::{error, info};
+use tracing::{error, info, warn};
 
 #[allow(dead_code)]
 pub struct AppState {
@@ -32,17 +32,38 @@ pub async fn proxy_query(
             let bytes_f64 = bytes as f64;
             let tibs = bytes_f64 / 1_099_511_627_776.0;
 
+            let query_cost = tibs * state.config.price_per_tib;
+            let is_too_expensive = query_cost > state.config.max_cost_per_query;
+
+            if is_too_expensive {
+                warn!(
+                    project_id = %project_id,
+                    estimated_cost = query_cost,
+                    limite = state.config.max_cost_per_query,
+                    "The query has exceeded the budget"
+                );
+
+                if state.config.enforce_mode {
+                    return (
+                        StatusCode::FORBIDDEN,
+                        format!(
+                            "Blocked by BigQuery Sentinel: The query costs ${:.2}, exceeding your limit of ${:.2}",
+                            query_cost, state.config.max_cost_per_query
+                        ),
+                    );
+                }
+            }
+
             info!(
                 project_id = %project_id,
-                bytes_escaneados = bytes,
-                "Google Cloud has successfully returned the estimate"
+                estimated_cost = query_cost,
+                "Query validated... Within safe limits"
             );
+
+            // cheap query or enforce_mode == false
             (
                 StatusCode::OK,
-                format!(
-                    "Simulation successful in Google Cloud, this query will scan {} bytes",
-                    bytes
-                ),
+                format!("Approved, estimated cost: ${:.2} ({} bytes)", query_cost, bytes),
             )
         }
         Err(err) => {

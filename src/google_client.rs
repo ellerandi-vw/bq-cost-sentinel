@@ -20,4 +20,12 @@ impl BqClient {
         }
     }
 
+    pub async fn simulate_query(
+        &self,
+        project_id: &str,
+        token: &str,
+        mut payload: Value,
+    ) -> Result<u64, String> {
+
+    }
 }

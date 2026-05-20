@@ -59,14 +59,19 @@ pub async fn proxy_query(
             info!(
                 project_id = %project_id,
                 estimated_cost = query_cost,
-                "Query validated... Within safe limits"
+                "Query validated. Executing the original query in BigQuery..."
             );
 
-            // cheap query or enforce_mode == false
-            (
-                StatusCode::OK,
-                format!("Approved, estimated cost: ${:.2} ({} bytes)", query_cost, bytes),
-            )
+            match state.google_client.execute_query(&project_id, &token.0, &payload).await {
+                Ok(data_json) => {
+                    info!("Query successfully executed. Sending data to the client...");
+                    (StatusCode::OK, Json(data_json)).into_response()
+                }
+                Err(err) => {
+                    error!("Error in actual execution: {}", err);
+                    (StatusCode::INTERNAL_SERVER_ERROR, err).into_response()
+                }
+            }
         }
         Err(err) => {
             error!(

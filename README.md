@@ -9,7 +9,7 @@ It acts as a financial guardrail, allowing queries through or blocking them base
 2. **Zero-Trust Authentication:** Automatically extracts the user's/Service Account's OAuth2 `Bearer` token without validating it locally, delegating IAM and security enforcement entirely to Google Cloud.
 3. **Payload Mutation:** Intercepts the original BigQuery JSON payload and injects the `"dryRun": true` flag on the fly.
 4. **Pre-Flight Estimation:** Submits the mutated payload to the official BigQuery API using a native Rust HTTP client (`reqwest`), retrieving the exact number of bytes that *would* be processed, without incurring BigQuery compute costs.
-5. **Financial Guardrail:** Evaluates the returned bytes against the configured mathematical formula and blocks the request with an HTTP 403 if it exceeds the project's financial limits.
+5. **Financial Guardrail:** Evaluates the returned bytes against the configured mathematical formula and blocks the request with an `HTTP 403 Forbidden` if it exceeds the project's financial limits.
 6. **Transparent Pass-Through:** If the query is within the budget, the proxy forwards the original unaltered payload to BigQuery and streams the analytical data back to the client, acting as a fully transparent layer.
 
 ---

@@ -4,6 +4,9 @@ A lightweight Reverse Proxy written in Rust that intercepts queries directed to 
 
 It acts as a financial guardrail, allowing queries through or blocking them based on the estimated bytes processed and configured budget limits.
 
+## Medium article:
+[FinOps in Action: Building a BigQuery Cost Guardrail in Rust](https://medium.com/@llerandi/finops-in-action-building-a-bigquery-cost-guardrail-in-rust-f8397b3191bb)
+
 ## Diagram
 
 ![Project diagram](docs/img/diagram.png)

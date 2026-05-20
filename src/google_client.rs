@@ -12,3 +12,12 @@ pub struct BqDryRunResponse {
 pub struct BqClient {
     http_client: Client,
 }
+
+impl BqClient {
+    pub fn new() -> Self {
+        Self {
+            http_client: Client::new(),
+        }
+    }
+
+}

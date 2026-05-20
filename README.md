@@ -56,3 +56,39 @@ echo "ENFORCE_MODE=false" >> .env
 # 2. Run the application
 cargo run
 ```
+
+---
+
+## Containerization & Deployment (wip)
+To deploy the solution to Google Cloud Run as a standardized platform building block, use the Docker configuration provided in the root directory.
+
+```bash
+docker build -t gcr.io/google-foundation/bq-cost-sentinel:v1.0.0 .
+```
+
+---
+
+## Security Compliance & Audit Logs
+When a query is forcefully blocked by the Sentinel, a structured JSON entry is written directly to standard output, which is natively caught and indexed by Google Cloud Logging.
+
+Example of a blocked query log:
+
+```json
+{
+  "timestamp": "2026-05-20T09:47:22.822010Z",
+  "level": "WARN",
+  "fields": {
+    "message": "The query has exceeded the budget",
+    "project_id": "my-google-project",
+    "estimated_cost": 85.22,
+    "limit": 12.50
+  },
+  "target": "bq_cost_sentinel::server"
+}
+```
+This strict layout provides your internal auditors with real-time TISAX-compliant signals indicating precisely which project attempted an unoptimized query structure.
+
+---
+
+## License
+Distributed under the MIT License. See `LICENSE`for more information.

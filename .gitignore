@@ -23,6 +23,10 @@ target
 # Environment variables from file
 .env
 
+# Git
+.git/
+
 # Added by cargo
 
 /target
+target/

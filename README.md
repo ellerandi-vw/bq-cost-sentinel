@@ -4,6 +4,10 @@ A lightweight Reverse Proxy written in Rust that intercepts queries directed to 
 
 It acts as a financial guardrail, allowing queries through or blocking them based on the estimated bytes processed and configured budget limits.
 
+## Diagram
+
+![Project diagram](docs/img/diagram.png)
+
 ## Summary
 1. **Async Web Proxy:** Built a highly concurrent server using Tokio and Axum.
 2. **Zero-Trust Authentication:** Automatically extracts the user's/Service Account's OAuth2 `Bearer` token without validating it locally, delegating IAM and security enforcement entirely to Google Cloud.

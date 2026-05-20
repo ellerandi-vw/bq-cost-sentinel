@@ -1,5 +1,15 @@
+# Git
+.git
+.git/
+.gitignore
+
+# Rust compilation
 /target
 target/
 
-.git/
+# Env
 .env
+
+# Docs
+docs/
+README.md

@@ -1,4 +1,6 @@
 mod config;
+mod auth;
+mod server;
 
 use axum::{routing::get, Router};
 use config::AppConfig;

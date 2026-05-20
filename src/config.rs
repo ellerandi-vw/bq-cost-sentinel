@@ -11,6 +11,8 @@ pub struct AppConfig {
 
 impl AppConfig {
     pub fn load_from_env() -> Self {
+        dotenv.ok();
+
         let port = env::var("PORT")
             .unwrap_or_else(|_| "8080".to_string())
             .parse::<u16>()

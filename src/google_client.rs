@@ -71,4 +71,18 @@ impl BqClient {
         Ok(bytes)
 
     }
+
+    pub async fn execute_query(
+        &self,
+        project_id: &str,
+        token: &str,
+        payload: &Value, // referencing to the original payload
+    ) -> Result<Value, String> {
+        let url = format!(
+            "https://bigquery.googleapis.com/bigquery/v2/projects/{}/queries",
+            project_id
+        );
+
+    }
+
 }

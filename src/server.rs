@@ -82,7 +82,7 @@ pub async fn proxy_query(
             (
                 StatusCode::BAD_REQUEST,
                 format!("Error simulating the query in BigQuery: {}", err),
-            )
+            ).into_response()
         }
     }
 

@@ -55,5 +55,10 @@ impl BqClient {
             return Err(format!("Google Cloud rejected the simulation: {}", error_body));
         }
 
+        let bq_response: BqDryRunResponse = response
+            .json()
+            .await
+            .map_err(|e| format!("Error reading Google Cloud JSON: {}", e))?;
+
     }
 }

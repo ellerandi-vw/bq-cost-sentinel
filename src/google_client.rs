@@ -31,5 +31,12 @@ impl BqClient {
             project_id
         );
 
+        if let Some(obj) = payload.as_object_mut() {
+            obj.insert(
+                "dryRun".to_string(),
+                Value::Bool(true),
+            );
+        }
+
     }
 }

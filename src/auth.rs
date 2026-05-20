@@ -4,7 +4,6 @@ use axum::{
     http::{request::Parts, StatusCode},
 };
 
-#[allow(dead_code)]
 pub struct BearerToken(pub String);
 
 #[async_trait]

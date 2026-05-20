@@ -71,4 +71,41 @@ impl BqClient {
         Ok(bytes)
 
     }
+
+    pub async fn execute_query(
+        &self,
+        project_id: &str,
+        token: &str,
+        payload: &Value, // referencing to the original payload
+    ) -> Result<Value, String> {
+        let url = format!(
+            "https://bigquery.googleapis.com/bigquery/v2/projects/{}/queries",
+            project_id
+        );
+
+        let response = self
+            .http_client
+            .post(&url)
+            .header("Authorization", format!("Bearer {}", token))
+            .json(payload)
+            .send()
+            .await
+            .map_err(|e| format!("Network error while connectin to Google Cloud: {}", e))?;
+
+        if response.status() != StatusCode::OK {
+            let error_body = response
+                .text()
+                .await
+                .unwrap_or_else(|_| "Unknown Google Cloud error".to_string());
+            return Err(format!("Google Cloud rejected the real query: {}", error_body));
+        }
+
+        let bq_response: Value = response
+            .json()
+            .await
+            .map_err(|e| format!("Error reading Google Cloud JSON: {}", e))?;
+
+        Ok(bq_response)
+    }
+
 }

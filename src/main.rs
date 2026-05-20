@@ -29,6 +29,8 @@ async fn main() {
 
     let config = AppConfig::load_from_env();
 
+    let google_client = google_client::BqClient::new();
+
     let shared_state = Arc::new(server::AppState {
         config: config.clone(),
     });

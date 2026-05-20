@@ -29,6 +29,9 @@ pub async fn proxy_query(
 
     match state.google_client.simulate_query(&project_id, &token.0, payload).await {
         Ok(bytes) => {
+            let bytes_f64 = bytes as f64;
+            let tibs = bytes_f64 / 1_099_511_627_776.0;
+
             info!(
                 project_id = %project_id,
                 bytes_escaneados = bytes,

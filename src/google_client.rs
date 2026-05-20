@@ -1,5 +1,5 @@
 use reqwest::{Client, StatusCode};
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize};
 use serde_json::Value;
 
 #[derive(Deserialize, Debug)]

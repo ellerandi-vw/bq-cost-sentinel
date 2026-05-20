@@ -27,11 +27,16 @@ async fn main() {
         .expect("Error initializing the logging (tracing) component");
 
     let config = AppConfig::load_from_env();
+
+    let shared_state = Arc::new(server::AppState {
+        config: config.clone(),
+    });
+
     info!(
         max_cost = config.max_cost_per_query,
         price_per_tib = config.price_per_tib,
         enforce_mode = config.enforce_mode,
-        "Starting bq-cost-sentinel..."
+        "Starting BigQuery Cost Sentinel in proxy mode..."
     );
 
     let app = Router::new()

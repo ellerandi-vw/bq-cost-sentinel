@@ -7,17 +7,18 @@ use axum::{
 };
 use serde_json::Value;
 use std::sync::Arc;
-use tracing::{info, warn};
+use tracing::{error, info};
 
 #[allow(dead_code)]
 pub struct AppState {
     pub config: crate::config::AppConfig,
+    pub google_client: crate::google_client::BqClient
 }
 
 pub async fn proxy_query(
-    State(_state): State<Arc<AppState>>,
+    State(state): State<Arc<AppState>>,
     Path(project_id): Path<String>,
-    _token: BearerToken,
+    token: BearerToken,
     Json(payload): Json<Value>, 
 ) -> impl IntoResponse {
     
@@ -26,18 +27,32 @@ pub async fn proxy_query(
         "Request for a query sent to BigQuery was intercepted"
     );
 
-    let sql_query = payload
-        .get("query")
-        .and_then(|q| q.as_str())
-        .unwrap_or("Query not found in the payload");
+    match state.google_client.simulate_query(&project_id, &token.0, payload).await {
+        Ok(bytes) => {
+            info!(
+                project_id = %project_id,
+                bytes_escaneados = bytes,
+                "Google Cloud has successfully returned the estimate"
+            );
+            (
+                StatusCode::OK,
+                format!(
+                    "Simulation successful in Google Cloud, this query will scan {} bytes",
+                    bytes
+                ),
+            )
+        }
+        Err(err) => {
+            error!(
+                project_id = %project_id,
+                error = %err,
+                "The simulation on Google Cloud has failed"
+            );
+            (
+                StatusCode::BAD_REQUEST,
+                format!("Error simulating the query in BigQuery: {}", err),
+            )
+        }
+    }
 
-    warn!(
-        query_text = %sql_query,
-        "Simulating evaluation (not yet connected to Google Cloud)"
-    );
-
-    (
-        StatusCode::OK,
-        format!("Simulation OK. Request for project {} intercepted", project_id),
-    )
 }

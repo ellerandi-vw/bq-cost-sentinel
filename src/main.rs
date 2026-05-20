@@ -1,6 +1,7 @@
 mod config;
 mod auth;
 mod server;
+mod google_client;
 
 use axum::{
     routing::{get, post},
@@ -28,8 +29,11 @@ async fn main() {
 
     let config = AppConfig::load_from_env();
 
+    let google_client = google_client::BqClient::new();
+
     let shared_state = Arc::new(server::AppState {
         config: config.clone(),
+        google_client
     });
 
     info!(

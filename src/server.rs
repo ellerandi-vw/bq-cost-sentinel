@@ -52,7 +52,7 @@ pub async fn proxy_query(
                             "Blocked by BigQuery Sentinel: The query costs ${:.2}, exceeding your limit of ${:.2}",
                             query_cost, state.config.max_cost_per_query
                         ),
-                    );
+                    ).into_response();
                 }
             }
 

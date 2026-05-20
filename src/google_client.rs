@@ -26,6 +26,10 @@ impl BqClient {
         token: &str,
         mut payload: Value,
     ) -> Result<u64, String> {
+        let url = format!(
+            "https://bigquery.googleapis.com/bigquery/v2/projects/{}/queries",
+            project_id
+        );
 
     }
 }

@@ -1,11 +1,9 @@
+> 💡 **Featured in the Official Google Cloud Community** — Read the architectural deep dive on **[Medium](https://medium.com/@llerandi/finops-in-action-building-a-bigquery-cost-guardrail-in-rust-f8397b3191bb)**.
 # BigQuery Cost Sentinel
 
 A lightweight Reverse Proxy written in Rust that intercepts queries directed to BigQuery to determine their financial cost *before* they are executed.
 
 It acts as a financial guardrail, allowing queries through or blocking them based on the estimated bytes processed and configured budget limits.
-
-## Medium article:
-[FinOps in Action: Building a BigQuery Cost Guardrail in Rust](https://medium.com/@llerandi/finops-in-action-building-a-bigquery-cost-guardrail-in-rust-f8397b3191bb)
 
 ## Diagram
 
@@ -199,6 +197,15 @@ my_bigquery_project:
 
 #### BI Tools (Looker, Tableau, etc.)
 Most enterprise Business Intelligence tools allow you to configure custom API endpoints or hostnames in their Advanced Connection Settings. Replace the default Google API hostname with your Cloud Run service URL.
+
+---
+
+## Article
+This project and its architectural design were officially featured and published in the **Google Cloud Community** on Medium. 
+
+For a comprehensive deep dive into the FinOps principles behind this tool, the technical trade-offs of using Rust, and how it safely operates at scale, you can read the full article here:
+
+**[FinOps in Action: Building a BigQuery Cost Guardrail in Rust](https://medium.com/@llerandi/finops-in-action-building-a-bigquery-cost-guardrail-in-rust-f8397b3191bb)**
 
 ---
 

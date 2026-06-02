@@ -1,5 +1,11 @@
-> 💡 **Featured in the Official Google Cloud Community** — Read the architectural deep dive on **[Medium](https://medium.com/@llerandi/finops-in-action-building-a-bigquery-cost-guardrail-in-rust-f8397b3191bb)**.
 # BigQuery Cost Sentinel
+
+![Rust](https://img.shields.io/badge/rust-stable-orange.svg?logo=rust)
+![Docker](https://img.shields.io/badge/docker-ready-2496ED.svg?logo=docker&logoColor=white)
+![Google Cloud](https://img.shields.io/badge/GCP-Cloud_Run-4285F4.svg?logo=googlecloud&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+
+>💡 **Featured in the Official Google Cloud Community** - Read the architectural deep dive on **[Medium](https://medium.com/@llerandi/finops-in-action-building-a-bigquery-cost-guardrail-in-rust-f8397b3191bb)**.
 
 A lightweight Reverse Proxy written in Rust that intercepts queries directed to BigQuery to determine their financial cost *before* they are executed.
 
